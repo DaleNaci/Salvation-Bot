@@ -61,7 +61,18 @@ async def reqs(ctx, player):
         "Achievement Points": [stats["general"]["AP"] >= 1000, "general AP"]
     }
 
-    color = Color.green() if any(not b for b in requirements.values()) else Color.red()
+    sw_req = requirements["SW Wins"][0] \
+            and requirements["SW Kills"][0] \
+            and requirements["SW KDR"][0]
+
+    bw_req = requirements["BW Wins"][0] \
+            and requirements["BW Stars"][0] \
+            and requirements["BW FKDR"][0]
+
+    gen_req = requirements["Level"][0] \
+            and requirements["Achievement Points"][0]
+
+    color = Color.green() if (sw_req or bw_req) and gen_req else Color.red()
 
     embed = Embed(title=player, color=color)
 
@@ -74,6 +85,26 @@ async def reqs(ctx, player):
         embed.add_field(name=k, value=message)
 
     await ctx.send(embed=embed)
+
+
+@bot.command()
+async def getIDs(ctx):
+    data = requests.get("https://api.hypixel.net/guild?key={}&name={}"
+        .format(key, "Salvation")).json()
+
+    uuids = [d["uuid"] for d in data["guild"]["members"]]
+    print(uuids)
+
+    with open("Members.json", "r") as f:
+        info = json.load(f)
+
+    for u in uuids:
+        if u not in info:
+            player_data = requests.get("https://api.hypixel.net/player?key={}&player={}"
+                .format(key, u)).json()
+
+
+    await ctx.send("Works")
 
 
 with open("token.txt", "r") as f:
