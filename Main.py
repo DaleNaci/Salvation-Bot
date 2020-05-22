@@ -31,26 +31,6 @@ async def on_ready():
     print("Bot is ready!")
 
 
-@bot.command()
-async def getIDs(ctx):
-    data = requests.get("https://api.hypixel.net/guild?key={}&name={}"
-        .format(key, "Salvation")).json()
-
-    uuids = [d["uuid"] for d in data["guild"]["members"]]
-    print(uuids)
-
-    with open("Members.json", "r") as f:
-        info = json.load(f)
-
-    for u in uuids:
-        if u not in info:
-            player_data = requests.get("https://api.hypixel.net/player?key={}&player={}"
-                .format(key, u)).json()
-
-
-    await ctx.send("Works")
-
-
 with open("token.txt", "r") as f:
     lines = f.readlines()
     token = lines[0].strip()
