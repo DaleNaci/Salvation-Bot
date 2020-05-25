@@ -18,7 +18,9 @@ with open("api_key.txt", "r") as f:
     key = lines[0].strip()
 
 cogs = [
-    "commands.reqs"
+    "commands.reqs",
+    "commands.gexp",
+    "tasks.gdaily"
 ]
 
 if __name__ == "__main__":

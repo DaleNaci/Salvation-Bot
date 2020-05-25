@@ -19,9 +19,17 @@ class Reqs(commands.Cog):
 
 
     @commands.command()
-    async def reqs(self, ctx, player):
+    async def reqs(self, ctx, player=None):
+        if player is None:
+            await ctx.send("Please provide a username!")
+            return
+
         data = requests.get("https://api.hypixel.net/player?key={}&name={}"
             .format(self.key, player)).json()
+
+        if data["player"] is None:
+            await ctx.send("Invalid username!")
+            return
 
         info = data["player"]["stats"]
 
