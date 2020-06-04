@@ -13,6 +13,8 @@ from discord import Color, Embed
 client = discord.Client()
 bot = commands.Bot(command_prefix = "!")
 
+bot.remove_command("help")
+
 with open("api_key.txt", "r") as f:
     lines = f.readlines()
     key = lines[0].strip()
@@ -20,6 +22,7 @@ with open("api_key.txt", "r") as f:
 cogs = [
     "commands.reqs",
     "commands.gexp",
+    "commands.help",
     "tasks.gdaily",
     "tasks.gweekly"
 ]
