@@ -13,17 +13,17 @@ from discord.utils import find
 from discord import Color, Embed
 
 
-class Gdaily(commands.Cog):
+class Gweekly(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         with open("api_key.txt", "r") as f:
             lines = f.readlines()
             self.key = lines[0].strip()
-        self.update_gexp.start()
+        self.update_weekly_gexp.start()
 
 
-    @tasks.loop(seconds=86400)
-    async def update_gexp(self):
+    @tasks.loop(seconds=604800)
+    async def update_weekly_gexp(self):
         data = requests.get("https://api.hypixel.net/guild?key={}&name={}"
             .format(self.key, "Salvation")).json()
 
@@ -38,7 +38,7 @@ class Gdaily(commands.Cog):
         exps = []
 
         for m in members:
-            exps.append([m["uuid"], m["expHistory"][date]])
+            exps.append([m["uuid"], sum(m["expHistory"].values())])
 
         exps.sort(key=lambda x: x[1], reverse=True)
 
@@ -52,10 +52,8 @@ class Gdaily(commands.Cog):
 
         desc = desc.replace("_", "\_")
 
-        date_str = "{} {} {}".format(t.day, calendar.month_name[t.month], t.year)
-
         embed = Embed(
-                    title="Top Guild Experience: {}".format(date_str),
+                    title="Top Weekly Guild Experience",
                     description=desc,
                     color=Color.dark_green()
                 )
@@ -64,12 +62,16 @@ class Gdaily(commands.Cog):
         await channel.send(embed=embed)
 
 
-    @update_gexp.before_loop
+    @update_weekly_gexp.before_loop
     async def wait_to_midnight(self):
         await self.bot.wait_until_ready()
 
         now = datetime.now()
-        sec_left = (86400
+        weekday = datetime.today().weekday()
+        if weekday == 6:
+            weekday = -1
+
+        sec_left = ((6 - weekday) * 86400
                     - now.hour * 3600
                     - now.minute * 60
                     - now.second
@@ -80,4 +82,4 @@ class Gdaily(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Gdaily(bot))
+    bot.add_cog(Gweekly(bot))

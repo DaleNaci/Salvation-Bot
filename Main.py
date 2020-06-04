@@ -20,7 +20,8 @@ with open("api_key.txt", "r") as f:
 cogs = [
     "commands.reqs",
     "commands.gexp",
-    "tasks.gdaily"
+    "tasks.gdaily",
+    "tasks.gweekly"
 ]
 
 if __name__ == "__main__":
