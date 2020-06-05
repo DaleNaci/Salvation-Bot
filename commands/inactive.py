@@ -17,6 +17,11 @@ class Inactive(commands.Cog):
             lines = f.readlines()
             self.key = lines[0].strip()
         self.weekly_requirement = 20000
+        self.uuid_name_pairs = {}
+        with open("data/uuids.txt", "r") as f:
+            for line in f.readlines():
+                lst = line.split()
+                self.uuid_name_pairs[lst[0]] = lst[1]
 
 
     @commands.command()
@@ -39,9 +44,13 @@ class Inactive(commands.Cog):
             uuid = m[0]
             exp = m[1]
 
-            player_data = requests.get("https://api.hypixel.net/player?key={}&uuid={}"
-                            .format(self.key, uuid)).json()
-            name = player_data["player"]["displayname"]
+            name = ""
+            if uuid in self.uuid_name_pairs:
+                name = self.uuid_name_pairs[uuid]
+            else:
+                player_data = requests.get("https://api.hypixel.net/player?key={}&uuid={}"
+                                .format(self.key, uuid)).json()
+                name = player_data["player"]["displayname"]
 
             desc += "{}. `{}`: {}\n".format(counter, name, exp)
 
