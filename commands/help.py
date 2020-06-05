@@ -12,7 +12,8 @@ class Help(commands.Cog):
         self.command_descs = {
             "!help": "Provides information about all commands.",
             "!gexp": "Guild exp earned by a player in the last week.",
-            "!reqs": "Determines if a player meets the guild requirements."
+            "!reqs": "Determines if a player meets the guild requirements.",
+            "!inactive": "Lists players with less than 20k guild exp for the week."
         }
 
 

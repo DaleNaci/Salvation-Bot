@@ -23,6 +23,7 @@ cogs = [
     "commands.reqs",
     "commands.gexp",
     "commands.help",
+    "commands.inactive",
     "tasks.gdaily",
     "tasks.gweekly"
 ]
