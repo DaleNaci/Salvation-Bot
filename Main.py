@@ -24,6 +24,7 @@ cogs = [
     "commands.gexp",
     "commands.help",
     "commands.inactive",
+    "commands.play",
     "tasks.gdaily",
     "tasks.gweekly"
 ]
