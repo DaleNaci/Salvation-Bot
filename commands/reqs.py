@@ -36,15 +36,11 @@ class Reqs(commands.Cog):
         stats = {
             "skywars": {
                 "wins": info["SkyWars"]["wins"],
-                "kills": info["SkyWars"]["kills"],
-                "kdr": round(info["SkyWars"]["kills"]
-                                / info["SkyWars"]["deaths"], 2)
+                "kills": info["SkyWars"]["kills"]
             },
             "bedwars": {
                 "wins": info["Bedwars"]["wins_bedwars"],
-                "level": data["player"]["achievements"]["bedwars_level"],
-                "fkdr": round(info["Bedwars"]["final_kills_bedwars"]
-                                / info["Bedwars"]["final_deaths_bedwars"], 2)
+                "level": data["player"]["achievements"]["bedwars_level"]
             },
             "general": {
                 "level": round(((data["player"]["networkExp"] + 15312.5) ** .5 - (125 / (2 ** .5)))
@@ -56,24 +52,15 @@ class Reqs(commands.Cog):
         requirements = {
             "SW Wins": [stats["skywars"]["wins"] >= 500, "skywars wins"],
             "SW Kills": [stats["skywars"]["kills"] >= 1000, "skywars kills"],
-            "SW KDR": [stats["skywars"]["kdr"] >= 1, "skywars kdr"],
+            "Level": [stats["general"]["level"] >= 25, "general level"],
             "BW Wins": [stats["bedwars"]["wins"] >= 150, "bedwars wins"],
             "BW Stars": [stats["bedwars"]["level"] >= 25, "bedwars level"],
-            "BW FKDR": [stats["bedwars"]["fkdr"] >= 3.5, "bedwars fkdr"],
-            "Level": [stats["general"]["level"] >= 25, "general level"],
             "Achievement Points": [stats["general"]["AP"] >= 1000, "general AP"]
         }
 
-        sw_req = requirements["SW Wins"][0] \
-                and requirements["SW Kills"][0] \
-                and requirements["SW KDR"][0]
-
-        bw_req = requirements["BW Wins"][0] \
-                and requirements["BW Stars"][0] \
-                and requirements["BW FKDR"][0]
-
-        gen_req = requirements["Level"][0] \
-                and requirements["Achievement Points"][0]
+        sw_req = requirements["SW Wins"][0] and requirements["SW Kills"][0]
+        bw_req = requirements["BW Wins"][0] and requirements["BW Stars"][0]
+        gen_req = requirements["Level"][0] and requirements["Achievement Points"][0]
 
         color = Color.green() if (sw_req or bw_req) and gen_req else Color.red()
 
