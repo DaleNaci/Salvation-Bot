@@ -35,7 +35,6 @@ class Gexp(commands.Cog):
 
         display_name = player_data["player"]["displayname"].replace("_", "\_")
         uuid = player_data["player"]["uuid"]
-        print(uuid)
         gexp_data = None
 
         for d in guild_data["guild"]["members"]:
@@ -51,8 +50,6 @@ class Gexp(commands.Cog):
         for date, exp in gexp_data.items():
             line = "`{}:      {}`\n".format(date, exp)
             desc += line
-
-        print(desc)
 
         embed = Embed(
                     title="Guild Experience: {}".format(display_name),

@@ -74,7 +74,6 @@ class Gdaily(commands.Cog):
                     - now.minute * 60
                     - now.second
                     - 60)
-        print(sec_left)
 
         await asyncio.sleep(sec_left)
 
